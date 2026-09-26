@@ -83,6 +83,10 @@ module simd_compute_unit (
     logic                  unused_is_coalesced;
     logic [7:0]            unused_burst_len;
 
+    // Drive memory request signals
+    assign coalesced_req_valid = is_mem_op;
+    assign coalesced_mask      = exec_mask;
+
     // 4. Memory Coalescer Engine
     /* verilator lint_off PINMISSING */
     memory_coalescer coalescer_inst (
