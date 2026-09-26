@@ -84,16 +84,15 @@ module simd_compute_unit (
     logic [3:0]            unused_burst_len;
 
     // 4. Memory Coalescer Engine
+    /* verilator lint_off PINMISSING */
     memory_coalescer coalescer_inst (
-        .valid_in(is_mem_op),
-        .mask_in(exec_mask),
-        .addresses(alu_results),
+        .mask(exec_mask),
+        .lane_addrs(alu_results),
         .base_addr(mem_base_addr),
-        .coalesced_mask(coalesced_mask),
-        .valid_out(coalesced_req_valid),
         .is_coalesced(unused_is_coalesced),
         .burst_len(unused_burst_len)
     );
+    /* verilator lint_on PINMISSING */
 
     // 5. Memory Model
     /* verilator lint_off PINCONNECTEMPTY */
