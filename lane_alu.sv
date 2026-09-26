@@ -23,7 +23,10 @@ module lane_alu (
                 4'b0101: result = operand_a ^ operand_b;              // XOR
                 4'b0110: cmp_result = ($signed(operand_a) < $signed(operand_b)); // CMP LT
                 4'b0111: cmp_result = (operand_a == operand_b);       // CMP EQ
-                default: result = 32'b0;
+                default: begin
+                    result     = 32'b0;
+                    cmp_result = 1'b0;
+                end
             endcase
         end
     end
