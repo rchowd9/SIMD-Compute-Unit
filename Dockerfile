@@ -3,11 +3,13 @@ FROM ubuntu:22.04
 # Prevent interactive prompts during apt install
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install SystemVerilog & C++ build tools
+# Install SystemVerilog & C++ build tools along with required Perl dependencies
 RUN apt-get update && apt-get install -y \
     verilator \
     g++ \
     make \
+    perl \
+    libfindbin-perl \
     python3 \
     && rm -rf /var/lib/apt/lists/*
 
