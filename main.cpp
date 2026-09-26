@@ -28,11 +28,11 @@ int main(int argc, char** argv) {
 
     // Reset Sequence
     top->clk = 0;
-    top->reset = 1;
+    top->rst_n = 0;
     top->eval();
     top->clk = 1;
     top->eval();
-    top->reset = 0;
+    top->rst_n = 1;
 
     std::cout << "[CPP Testbench] SIMD Compute Unit Initialization Complete." << std::endl;
 
