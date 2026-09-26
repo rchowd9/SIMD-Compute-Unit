@@ -12,7 +12,6 @@ RUN apt-get clean && \
         g++ \
         make \
         perl \
-        libfindbin-perl \
         python3 \
     && rm -rf /var/lib/apt/lists/*
 
