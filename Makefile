@@ -1,10 +1,10 @@
 # Simulator Configuration
 VERILATOR = verilator
-VERILATOR_FLAGS = -Wall --cc --trace --exe --build
+VERILATOR_FLAGS = -Wall -Wno-IMPORTSTAR --cc --trace --exe --build
 
 # Target Module
 TOP_MODULE = simd_compute_unit
-SV_FILES = simd_pkg.sv lane_alu.sv vector-regfile.sv memory_coalescer.sv memory.sv warp_scheduler.sv simd_compute_unit.sv
+SV_FILES = simd_pkg.sv lane_alu.sv vector_regfile.sv memory_coalescer.sv memory.sv warp_scheduler.sv simd_compute_unit.sv
 CPP_FILE = main.cpp
 
 all: build
