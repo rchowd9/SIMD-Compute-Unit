@@ -22,12 +22,12 @@ module memory (
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            for (int i = 0; i < 1024; i++) ram[i] <= i; // Initialize memory
+            for (int i = 0; i < 1024; i++) ram[i] = i; // Initialize memory (blocking assignment)
         end else if (mem_req_valid) begin
             for (int lane = 0; lane < NUM_LANES; lane++) begin
                 if (mem_mask[lane]) begin
                     logic [REG_ADDR_WIDTH+4:0] word_addr;
-                    word_addr = (base_addr + (lane * 4)) >> 2;
+                    word_addr = 10'((base_addr + (lane * 4)) >> 2);
                     
                     if (mem_write) begin
                         ram[word_addr] <= wdata[lane];
