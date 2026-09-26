@@ -81,7 +81,7 @@ module simd_compute_unit (
     logic                  coalesced_req_valid;
     logic [MASK_WIDTH-1:0] coalesced_mask;
     logic                  unused_is_coalesced;
-    logic [3:0]            unused_burst_len;
+    logic [7:0]            unused_burst_len;
 
     // 4. Memory Coalescer Engine
     /* verilator lint_off PINMISSING */
