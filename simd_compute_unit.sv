@@ -1,3 +1,4 @@
+/* verilator lint_off IMPORTSTAR */
 import simd_pkg::*;
 
 module simd_compute_unit (
@@ -15,15 +16,16 @@ module simd_compute_unit (
 );
 
     // Internal Wires
-    alu_op_e                 alu_op;
+    alu_op_e                   alu_op;
     logic [REG_ADDR_WIDTH-1:0] raddr_a, raddr_b, waddr;
-    logic                    rf_wen;
-    logic [MASK_WIDTH-1:0]   exec_mask;
-    logic                    is_mem_op;
+    logic                      rf_wen;
+    logic [MASK_WIDTH-1:0]     exec_mask;
+    logic                      is_mem_op;
 
     logic [NUM_LANES-1:0][DATA_WIDTH-1:0] operand_a;
     logic [NUM_LANES-1:0][DATA_WIDTH-1:0] operand_b;
     logic [NUM_LANES-1:0][DATA_WIDTH-1:0] alu_results;
+    logic [NUM_LANES-1:0]                 cmp_results;
     logic [NUM_LANES-1:0][DATA_WIDTH-1:0] mem_rdata;
     logic [NUM_LANES-1:0][DATA_WIDTH-1:0] writeback_data;
 
@@ -64,12 +66,12 @@ module simd_compute_unit (
         for (i = 0; i < NUM_LANES; i++) begin : gen_lanes
             lane_alu lane_inst (
                 .clk(clk),
-                .rst_n(rst_n),
-                .mask(exec_mask[i]),
-                .op(alu_op),
-                .a(operand_a[i]),
-                .b(operand_b[i]),
-                .result(alu_results[i])
+                .enable(exec_mask[i]),
+                .alu_op(alu_op[3:0]),
+                .operand_a(operand_a[i]),
+                .operand_b(operand_b[i]),
+                .result(alu_results[i]),
+                .cmp_result(cmp_results[i])
             );
         end
     endgenerate
@@ -78,20 +80,23 @@ module simd_compute_unit (
     logic [DATA_WIDTH-1:0] mem_base_addr;
     logic                  coalesced_req_valid;
     logic [MASK_WIDTH-1:0] coalesced_mask;
+    logic                  unused_is_coalesced;
+    logic [3:0]            unused_burst_len;
 
     // 4. Memory Coalescer Engine
     memory_coalescer coalescer_inst (
-        .clk(clk),
-        .rst_n(rst_n),
-        .enable(is_mem_op),
-        .mask(exec_mask),
-        .lane_addrs(alu_results),
+        .valid_in(is_mem_op),
+        .mask_in(exec_mask),
+        .addresses(alu_results),
         .base_addr(mem_base_addr),
         .coalesced_mask(coalesced_mask),
-        .req_valid(coalesced_req_valid)
+        .valid_out(coalesced_req_valid),
+        .is_coalesced(unused_is_coalesced),
+        .burst_len(unused_burst_len)
     );
 
     // 5. Memory Model
+    /* verilator lint_off PINCONNECTEMPTY */
     memory mem_inst (
         .clk(clk),
         .rst_n(rst_n),
@@ -103,6 +108,7 @@ module simd_compute_unit (
         .rdata(mem_rdata),
         .mem_ready()
     );
+    /* verilator lint_on PINCONNECTEMPTY */
 
     // Mux ALU or Memory Read Data to Writeback
     assign writeback_data = is_mem_op ? mem_rdata : alu_results;
