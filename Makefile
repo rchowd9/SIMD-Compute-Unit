@@ -1,6 +1,6 @@
 # Simulator Configuration
 VERILATOR = verilator
-VERILATOR_FLAGS = -Wall -Wno-IMPORTSTAR --cc --trace --exe --build
+VERILATOR_FLAGS = -Wall -Wno-IMPORTSTAR -Wno-UNUSED -Wno-UNDRIVEN --cc --trace --exe --build
 
 # Target Module
 TOP_MODULE = simd_compute_unit
