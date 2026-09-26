@@ -20,9 +20,17 @@ module memory (
 
     assign mem_ready = 1'b1; // Single-cycle memory access completion simulation
 
+    // Initialize RAM model contents at startup
+    initial begin
+        for (int i = 0; i < 1024; i++) begin
+            ram[i] = i;
+        end
+    end
+
+    // Sequential memory access
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            for (int i = 0; i < 1024; i++) ram[i] = i; // Initialize memory (blocking assignment)
+            // Reset logic if needed
         end else if (mem_req_valid) begin
             for (int lane = 0; lane < NUM_LANES; lane++) begin
                 if (mem_mask[lane]) begin
