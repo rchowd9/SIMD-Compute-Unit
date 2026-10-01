@@ -49,10 +49,9 @@ return v4
 
 
 def assemble_program():
-"""Parses program.s and creates a hex initialization file for memory.sv."""
-print("[Assembler] Parsing program.s...")
+    print("[Assembler] Parsing program.s...")
 if not os.path.exists("program.s"):
-print("[Error] program.s not found!")
+    print("[Error] program.s not found!")
 sys.exit(1)
 
 # Translation of instructions to hex memory lines
