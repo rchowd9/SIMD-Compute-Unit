@@ -73,8 +73,7 @@ print(f"[Assembler] Compiled instructions written to {HEX_INPUT_FILE}")
 
 
 def run_simulation():
-"""Runs the simulation inside Docker or natively via Make."""
-print("[Simulation] Launching SIMD Compute Unit simulation...")
+    print("[Simulation] Launching SIMD Compute Unit simulation...")
 
 cmd = ["docker", "run", "--rm", DOCKER_IMAGE]
 
@@ -94,8 +93,7 @@ except subprocess.CalledProcessError as e:
 
 
 def verify_output(sim_output, expected_v4):
-"""Parses simulation logs and compares against the Python golden model."""
-print("[Verification] Verifying SIMD Lane outputs...")
+    print("[Verification] Verifying SIMD Lane outputs...")
 
 # Regex pattern to capture printed register output in main.cpp
 matches = re.findall(r"LANE\[(\d+)\]\s*=\s*(\d+)", sim_output)
