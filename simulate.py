@@ -24,8 +24,7 @@ HEX_INPUT_FILE = "mem_init.hex"
 DOCKER_IMAGE = "simd-sim"
 
 def generate_golden_model():
-"""Calculates expected hardware outputs using Python list operations."""
-print("[Python Model] Generating test vectors...")
+    print("[Python Model] Generating test vectors...")
 
 # 8-lane vector 1: [1, 2, 3, 4, 5, 6, 7, 8]
 v1 = [i + 1 for i in range(NUM_LANES)]
