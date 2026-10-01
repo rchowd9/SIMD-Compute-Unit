@@ -124,7 +124,7 @@ else:
 
 
 if name == "main":
-expected_v4 = generate_golden_model()
+    expected_v4 = generate_golden_model()
 assemble_program()
 output = run_simulation()
 verify_output(output, expected_v4)
