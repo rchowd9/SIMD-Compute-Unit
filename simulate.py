@@ -73,7 +73,13 @@ print(f"[Assembler] Compiled instructions written to {HEX_INPUT_FILE}")
 
 
 def run_simulation():
-    print("[Simulation] Launching SIMD Compute Unit simulation...")
+    print("Starting simulation")
+    # Do your work here...
+    return  # Valid inside a function
+
+# Call the function at the module level
+run_simulation()
+print("This runs after the function finishes")
 
 cmd = ["docker", "run", "--rm", DOCKER_IMAGE]
 
